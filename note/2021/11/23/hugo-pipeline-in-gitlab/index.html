@@ -1,0 +1,35 @@
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Learning Diary with notes on Docker, Git, VS Code">
+<meta http-equiv=content-security-policy content="style-src 'self'; img-src 'self'; script-src 'none'; object-src 'none';">
+<title>Hugo CI/CD Pipeline in GitLab | Notes on Web Development</title>
+<link rel=stylesheet href=/css/styles.css>
+</head>
+<body>
+<nav>
+<ul class=menu>
+<li><a href=/>Home</a></li>
+<li><a href=/tags/>Tags</a></li>
+</ul>
+<hr>
+</nav>
+<div class=article-meta>
+<h1><span class=title>Hugo CI/CD Pipeline in GitLab</span></h1>
+<p class=tags>
+Tags: <a href=/tags/ci/cd>CI/CD</a> <a href=/tags/configuration>Configuration</a> <a href=/tags/gitlab>GitLab</a> <a href=/tags/hugo>Hugo</a>
+</p>
+</div>
+<main>
+<p>A Static Site Generator called <a href=https://gohugo.io/>Hugo</a> and the <a href=https://themes.gohugo.io/themes/hugo-xmin/>XMin</a> theme are used to build these pages. GitLab&rsquo;s <a href=https://gitlab.com/pages/hugo>Hugo template</a> for <a href=https://about.gitlab.com/stages-devops-lifecycle/pages/>GitLab Pages</a> helped a lot getting started. There were a couple of things to sort out to get everything running smoothly on <a href=https://student.labranet.jamk.fi/>LabraNet</a>&rsquo;s GitLab.</p>
+<p>First, the project should be named <code>ab1234.pages.labranet.jamk.fi</code>, where <code>ab1234</code> is the username, to get the defaults working for user pages. Second, Labranet&rsquo;s GitLab Runner has a tag associated with it and it needs to be added to the file <code>.gitlab-ci.yml</code> under <code>pages</code> and <code>tags</code>. Third, it&rsquo;s probably a good idea to force the use of <code>HTTPS</code> in the settings. Now everything should be order to get the CI/CD pipeline running and pages published (at <code>https://ab1234.pages.labranet.jamk.fi</code>), when a commit is pushed to the GitLab repository.</p>
+<p><strong>UPDATE 2021/12/29:</strong></p>
+<p>This post is related to the original pages that were hosted at GitLab. The configuration for the current pages is discussed in a <a href=/note/2021/12/29/hugo-setup-for-github-pages/>new post</a>.</p>
+</main>
+<footer>
+<hr>
+Content © 2021 Petri Huhtanen, all rights reserved | Built with <a href=https://gohugo.io/>Hugo</a>, <a href=https://themes.gohugo.io/themes/hugo-xmin/>XMin</a>, <a href=https://pages.github.com/>GitHub Pages</a>
+</footer>
+</body>
+</html>

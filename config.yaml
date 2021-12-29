@@ -1,0 +1,30 @@
+baseurl: "https://phhtnn.github.io"
+languageCode: "en-us"
+title: "Notes on Web Development"
+theme: "hugo-xmin"
+googleAnalytics: ""
+disqusShortname: ""
+ignoreFiles: ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+footnotereturnlinkcontents: "↩"
+enableRobotsTXT: false
+
+permalinks:
+  note: "/note/:year/:month/:day/:slug/"
+  post: "/post/:year/:month/:day/:slug/"
+
+menu:
+  main:
+    - name: Home
+      url: ""
+      weight: 1
+    - name: Tags
+      url: "tags/"
+      weight: 2
+params:
+  description: "Notes on the MERN stack built with [Hugo](https://gohugo.io/) and [XMin](https://themes.gohugo.io/themes/hugo-xmin/) theme."
+  footer: "Content &copy; 2021 Petri Huhtanen, all rights reserved | Built with [Hugo](https://gohugo.io/), [XMin](https://themes.gohugo.io/themes/hugo-xmin/), [GitHub Pages](https://pages.github.com/)"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

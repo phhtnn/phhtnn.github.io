@@ -22,9 +22,22 @@ menu:
       weight: 2
 params:
   description: "Notes on the MERN stack built with [Hugo](https://gohugo.io/) and [XMin](https://themes.gohugo.io/themes/hugo-xmin/) theme."
-  footer: "Content &copy; 2021 Petri Huhtanen, all rights reserved | Built with [Hugo](https://gohugo.io/), [XMin](https://themes.gohugo.io/themes/hugo-xmin/), [GitHub Pages](https://pages.github.com/)"
+  footer: "Content &copy; 2021-2022 Petri Huhtanen, all rights reserved | Built with [Hugo](https://gohugo.io/), [XMin](https://themes.gohugo.io/themes/hugo-xmin/), [GitHub Pages](https://pages.github.com/)"
 
 markup:
   goldmark:
     renderer:
       unsafe: true
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    lineAnchors: ""
+    lineNoStart: 1
+    lineNos: true
+    lineNumbersInTable: true
+    noClasses: false
+    noHl: false
+    style: xcode
+    tabWidth: 4

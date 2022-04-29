@@ -1,0 +1,80 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Learning Diary with notes on Docker, Git, VS Code"><meta http-equiv=content-security-policy content="style-src 'self'; img-src 'self'; script-src 'none'; object-src 'none';"><title>Bypass useEffect on Mount with useRef | Notes on Web Development</title><link rel=stylesheet href=/css/styles.css></head><body><nav><ul class=menu><li><a href=/>Home</a></li><li><a href=/tags/>Tags</a></li></ul><hr></nav><div class=article-meta><h1><span class=title>Bypass useEffect on Mount with useRef</span></h1><p class=tags>Tags: <a href=/tags/react>React</a> <a href=/tags/hooks>Hooks</a></p></div><main><p>As the documentation of React states, <a href=https://reactjs.org/docs/hooks-intro.html>Hooks</a> &ldquo;let you use state and other React features without writing a class.&rdquo; The <a href=https://reactjs.org/docs/hooks-state.html>useState</a> Hook is used to manage the state of a component. If you need to do some data fetching, the <a href=https://reactjs.org/docs/hooks-effect.html>useEffect</a> Hook is the one to use. It&rsquo;s default behaviour for React to run the Effect Hooks after every render. This always includes the first render, too. There might be use cases, when one wants to fetch some data, but only after e.g. the user presses a button. How can this be handled in React?</p><p>Here is a solution that uses the <a href=https://reactjs.org/docs/hooks-reference.html#useref>useRef</a> Hook on tracking the button press. This has an advantage over using <code>useState</code> as mutating the <code>current</code> property doesn&rsquo;t cause a re-render. This should be a minimal working solution to use in <code>App.js</code>. I&rsquo;d like to point out that it was inspired by Caleb Benjamin&rsquo;s <a href=https://dev.to/calebbenjin/how-to-prevent-useeffect-from-running-on-initial-render-in-react-22a8>post</a> that helped me figure out, how the useRef Hook works.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>useEffect</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>useRef</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>useState</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>App</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>data</span><span class=p>,</span> <span class=nx>setData</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>id</span><span class=p>,</span> <span class=nx>setId</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>pressedRef</span> <span class=o>=</span> <span class=nx>useRef</span><span class=p>(</span><span class=kc>false</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>handleGetData</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>pressedRef</span><span class=p>.</span><span class=nx>current</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=nx>setId</span><span class=p>(</span><span class=nx>id</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>handleHideData</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>setData</span><span class=p>(</span><span class=kc>null</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=nx>useEffect</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>pressedRef</span><span class=p>.</span><span class=nx>current</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>fetch</span><span class=p>(</span><span class=sb>`https://jsonplaceholder.typicode.com/todos/</span><span class=si>${</span><span class=nx>id</span><span class=si>}</span><span class=sb>`</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>          <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=nx>response</span> <span class=p>=&gt;</span> <span class=nx>response</span><span class=p>.</span><span class=nx>json</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>          <span class=p>.</span><span class=nx>then</span><span class=p>(</span><span class=nx>json</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>setData</span><span class=p>(</span><span class=nx>json</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>pressedRef</span><span class=p>.</span><span class=nx>current</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>          <span class=p>})</span>
+</span></span><span class=line><span class=cl>          <span class=p>.</span><span class=k>catch</span><span class=p>(</span><span class=nx>err</span> <span class=p>=&gt;</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>err</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=p>[</span><span class=nx>id</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;{</span><span class=nx>data</span> <span class=o>?</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>data</span><span class=p>)</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>}&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>handleGetData</span><span class=p>}&gt;</span><span class=nx>Get</span> <span class=nx>Next</span> <span class=nx>Todo</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>handleHideData</span><span class=p>}&gt;</span><span class=nx>Hide</span> <span class=nx>Todo</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=p>&lt;/&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span></span></span></code></pre></td></tr></table></div></div></main><footer><hr>Content © 2021-2022 Petri Huhtanen, all rights reserved | Built with <a href=https://gohugo.io/>Hugo</a>, <a href=https://themes.gohugo.io/themes/hugo-xmin/>XMin</a>, <a href=https://pages.github.com/>GitHub Pages</a></footer></body></html>
